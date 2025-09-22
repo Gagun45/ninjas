@@ -30,14 +30,18 @@ const CreateSuperheroForm = () => {
     },
   });
   const onSubmit = async (values: createSuperheroSchemaType) => {
-    const res = await createSuperhero({ values }).unwrap();
-    if (res.success) {
-      toast.success("Superhero created");
-      // ROUTER TO /superhero/pid //
-    } else {
-      toast.error("Something went wrong");
+    try {
+      const res = await createSuperhero({ values }).unwrap();
+      if (res.success) {
+        toast.success("Superhero created");
+        form.reset();
+        // ROUTER TO /superhero/pid //
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch {
+      toast.error("Unexpected error");
     }
-    form.reset();
   };
   return (
     <Form {...form}>

@@ -19,16 +19,19 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const DeleteSuperheroButton = ({ pid }: Props) => {
-  const [deleteSuperhero, { isLoading }] =
-    useDeleteSuperheroByPidMutation();
+  const [deleteSuperhero, { isLoading }] = useDeleteSuperheroByPidMutation();
   const router = useRouter();
   const onDelete = async () => {
-    const { success } = await deleteSuperhero({ pid }).unwrap();
-    if (success) {
-      toast.success("Superhero deleted!");
-      router.push("/");
-    } else {
-      toast.error("Something went wrong");
+    try {
+      const { success } = await deleteSuperhero({ pid }).unwrap();
+      if (success) {
+        toast.success("Superhero deleted!");
+        router.push("/");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch {
+      toast.error("Unexpected error");
     }
   };
   return (
