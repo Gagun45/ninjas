@@ -18,11 +18,15 @@ const AllSuperpowersSection = async () => {
   return (
     <section className="flex flex-col w-full max-w-2xl">
       <h2 className="text-xl font-semibold py-4">Existing superpowers</h2>
-      <ul className="flex flex-col gap-2 list-disc pl-4">
-        {superpowers.map((spower) => (
-          <li key={spower.id}>{spower.power}</li>
-        ))}
-      </ul>
+      {superpowers.length === 0 ? (
+        <span>No superpowers exist so far</span>
+      ) : (
+        <ul className="flex flex-col gap-2 list-disc pl-4">
+          {superpowers.map((spower) => (
+            <li key={spower.id}>{spower.power}</li>
+          ))}
+        </ul>
+      )}
     </section>
   );
 };
