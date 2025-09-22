@@ -1,6 +1,7 @@
 import {
   createSuperhero,
   getSuperheroes,
+  deleteSuperheroByPid,
 } from "@/lib/actions/superhero.actions";
 import type { SuperheroHomepageType } from "@/lib/types";
 import type { createSuperheroSchemaType } from "@/lib/zod-schemas";
@@ -29,6 +30,20 @@ export const superheroesApi = createApi({
       },
       providesTags: ["AllSuperheroes"],
     }),
+    deleteSuperheroByPid: builder.mutation<
+      { success: boolean },
+      { pid: string }
+    >({
+      queryFn: async ({ pid }) => {
+        try {
+          const data = await deleteSuperheroByPid({ pid });
+          return { data };
+        } catch (error) {
+          return { error };
+        }
+      },
+      invalidatesTags: ["AllSuperheroes"],
+    }),
     createSuperhero: builder.mutation<
       { success: boolean; pid: string },
       { values: createSuperheroSchemaType }
@@ -46,5 +61,8 @@ export const superheroesApi = createApi({
   }),
 });
 
-export const { useCreateSuperheroMutation, useGetSuperheroesQuery } =
-  superheroesApi;
+export const {
+  useCreateSuperheroMutation,
+  useGetSuperheroesQuery,
+  useDeleteSuperheroByPidMutation,
+} = superheroesApi;

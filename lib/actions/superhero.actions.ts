@@ -2,7 +2,7 @@
 
 import type { Prisma } from "@prisma/client";
 import prisma from "../prisma";
-import type { SuperheroHomepageType } from "../types";
+import type { SuperheroDetailedType, SuperheroHomepageType } from "../types";
 import type { createSuperheroSchemaType } from "../zod-schemas";
 import { PER_PAGE_OPTIONS } from "../constants";
 
@@ -70,5 +70,38 @@ export const getSuperheroes = async ({
   } catch (error) {
     console.log("Get superheroes error: ", error);
     return { success: false, superheroes: [], totalCount: 0 };
+  }
+};
+
+export const getSuperheroByPid = async ({
+  pid,
+}: {
+  pid: string;
+}): Promise<{ success: boolean; superhero: SuperheroDetailedType | null }> => {
+  try {
+    const superhero = await prisma.superhero.findUnique({
+      where: { pid },
+      include: { superpowers: true },
+    });
+    return { success: true, superhero };
+  } catch (error) {
+    console.log("Get superhero by pid error: ", error);
+    return { success: false, superhero: null };
+  }
+};
+
+export const deleteSuperheroByPid = async ({
+  pid,
+}: {
+  pid: string;
+}): Promise<{ success: boolean }> => {
+  try {
+    await prisma.superhero.delete({
+      where: { pid },
+    });
+    return { success: true };
+  } catch (error) {
+    console.log("Delete superhero by pid error: ", error);
+    return { success: false };
   }
 };
