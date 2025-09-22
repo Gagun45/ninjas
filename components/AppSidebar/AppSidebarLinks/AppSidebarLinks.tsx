@@ -2,11 +2,14 @@ import { SidebarGroup } from "@/components/ui/sidebar";
 import type { LinkInterface } from "@/lib/types";
 import Link from "next/link";
 
-const LINKS: LinkInterface[] = [{ href: "create", label: "Create" }];
+const LINKS: LinkInterface[] = [
+  { href: "superpower/create", label: "Create a superpower" },
+  { href: "seperhero/create", label: "Create a superhero" },
+];
 
 const AppSidebarLinks = () => {
   return (
-    <SidebarGroup>
+    <SidebarGroup className="gap-4">
       {LINKS.map((link) => (
         <Link
           className="bg-main rounded-md p-1 font-semibold"

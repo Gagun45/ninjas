@@ -25,6 +25,6 @@ model Superhero {
 
 model Superpower {
   id        Int         @id @default(autoincrement())
-  power     String
+  power     String      @unique
   Superhero Superhero[]
 }
