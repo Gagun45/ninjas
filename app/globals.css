@@ -124,4 +124,8 @@
   main {
     @apply flex flex-col w-screen min-h-screen
   }
+
+  section {
+    @apply h-full items-center flex flex-col bg-amber-50 p-4 md:p-10
+  }
 }
