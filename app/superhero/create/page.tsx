@@ -1,9 +1,9 @@
 const CreateSuperheroPage = () => {
   return (
-    <section>
+    <main>
       <h1>Create a superhero</h1>
       <div>create form</div>
-    </section>
+    </main>
   );
 };
 export default CreateSuperheroPage;

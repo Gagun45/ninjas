@@ -3,11 +3,11 @@ import CreateSuperpowerForm from "@/forms/CreateSuperpowerForm/CreateSuperpowerF
 
 const CreateSuperPowerPage = () => {
   return (
-    <section>
+    <main>
       <h1>Create a superpower</h1>
       <CreateSuperpowerForm />
       <AllSuperpowers />
-    </section>
+    </main>
   );
 };
 export default CreateSuperPowerPage;

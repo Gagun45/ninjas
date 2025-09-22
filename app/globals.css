@@ -122,10 +122,7 @@
   }
 
   main {
-    @apply flex flex-col w-screen min-h-screen
+    @apply flex flex-col w-full min-h-[calc(100vh-144px)] bg-amber-50
   }
 
-  section {
-    @apply h-full items-center flex flex-col bg-amber-50 p-4 md:p-10
-  }
 }

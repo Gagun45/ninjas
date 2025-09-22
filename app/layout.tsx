@@ -33,10 +33,10 @@ export default function RootLayout({
       >
         <SidebarProvider>
           <AppSidebar />
-          <main>
+          <div className="grow">
             <Header />
             {children}
-          </main>
+          </div>
         </SidebarProvider>
         <Toaster />
       </body>
