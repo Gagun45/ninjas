@@ -16,10 +16,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { createSuperpower } from "@/lib/actions/superpower.actions";
 import { toast } from "sonner";
+import { useCreateSuperpowerMutation } from "@/redux/apis/superpowersApi";
+import LoadingButton from "@/components/General/LoadingButton/LoadingButton";
 
 const CreateSuperpowerForm = () => {
+  const [addNewSuperhero, { isLoading }] = useCreateSuperpowerMutation();
   const form = useForm<createSuperpowerSchemaType>({
     resolver: zodResolver(createSuperpowerSchema),
     defaultValues: {
@@ -27,13 +29,18 @@ const CreateSuperpowerForm = () => {
     },
   });
   const onSubmit = async (values: createSuperpowerSchemaType) => {
-    const success = await createSuperpower(values);
-    if (success) {
-      toast.success("Superpower created");
-    } else {
+    try {
+      const res = await addNewSuperhero({ values }).unwrap();
+      if (res.success) {
+        toast.success("New superpower added!");
+      } else {
+        toast.error("Something went wrong!");
+      }
+    } catch {
       toast.error("Something went wrong");
+    } finally {
+      form.reset();
     }
-    form.reset();
   };
   return (
     <Form {...form}>
@@ -54,7 +61,7 @@ const CreateSuperpowerForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        {isLoading ? <LoadingButton /> : <Button type="submit">Submit</Button>}
       </form>
     </Form>
   );
