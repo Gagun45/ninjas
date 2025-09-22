@@ -17,11 +17,11 @@ export const superheroesApi = createApi({
         superheroes: SuperheroHomepageType[];
         totalCount: number;
       },
-      { page: number; perPage: number }
+      { page: number; perPage: number; sortOption: string }
     >({
-      queryFn: async ({ page, perPage }) => {
+      queryFn: async ({ page, perPage, sortOption }) => {
         try {
-          const data = await getSuperheroes({ page, perPage });
+          const data = await getSuperheroes({ page, perPage, sortOption });
           return { data };
         } catch (error) {
           return { error };

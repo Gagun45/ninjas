@@ -1,4 +1,3 @@
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -10,24 +9,23 @@ import {
 
 interface Props {
   perPage: number;
-  onChange: (value: number) => void;
+  onChange: (value: string) => void;
+  options: string[];
 }
 
-const PER_PAGE_VARIANTS = ["2", "5", "10"];
-
-const PerPageSelect = ({ onChange, perPage }: Props) => {
+const PerPageSelect = ({ onChange, perPage, options }: Props) => {
   return (
     <Select
       defaultValue={perPage.toString()}
-      onValueChange={(value) => onChange(parseInt(value))}
+      onValueChange={(value) => onChange(value)}
     >
       <SelectTrigger className="w-[180px]">
-        <Label>Show per page: </Label>
+        Show per page:
         <SelectValue />
       </SelectTrigger>
       <SelectContent className="bg-amber-50">
         <SelectGroup>
-          {PER_PAGE_VARIANTS.map((value) => (
+          {options.map((value) => (
             <SelectItem key={value} value={value}>
               {value}
             </SelectItem>
