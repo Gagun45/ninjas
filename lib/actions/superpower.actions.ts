@@ -27,7 +27,7 @@ export const getAllSuperpowers = async (): Promise<{
     const superpowers = await prisma.superpower.findMany();
     return { superpowers };
   } catch (error) {
-    console.log("Create superpower error: ", error);
+    console.log("Get all superpowers error: ", error);
     return { superpowers: [] };
   }
 };

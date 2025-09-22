@@ -7,4 +7,29 @@ export const createSuperpowerSchema = z.object({
     .max(36, { message: "Power must be at most 36 characters" }),
 });
 
+export const createSuperheroSchema = z.object({
+  nickname: z
+    .string()
+    .min(3, { message: "Nickname must be at least 3 characters" })
+    .max(36, { message: "Nickname must be at most 36 characters" }),
+  realName: z
+    .string()
+    .min(3, { message: "Real name must be at least 3 characters" })
+    .max(36, { message: "Real name must be at most 36 characters" }),
+  originDescription: z
+    .string()
+    .min(3, { message: "Origin description must be at least 3 characters" })
+    .max(36, { message: "Origin description must be at most 36 characters" }),
+  catchPhrase: z
+    .string()
+    .min(3, {
+      message: "Catch phrase description must be at least 3 characters",
+    })
+    .max(36, {
+      message: "Catch phrase description must be at most 36 characters",
+    }),
+  superpowers: z.array(z.int()).min(1, { message: "Choose at least one superpower" }),
+});
+
 export type createSuperpowerSchemaType = z.infer<typeof createSuperpowerSchema>;
+export type createSuperheroSchemaType = z.infer<typeof createSuperheroSchema>;

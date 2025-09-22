@@ -14,12 +14,13 @@ datasource db {
 }
 
 model Superhero {
-  id                 Int          @id @default(autoincrement())
-  nickname           String       @unique
-  real_name          String
-  origin_description String
-  superpowers        Superpower[]
-  catch_phrase       String
+  id                Int          @id @default(autoincrement())
+  pid               String       @default(cuid())
+  nickname          String       @unique
+  realName          String
+  originDescription String
+  superpowers       Superpower[]
+  catchPhrase       String
   // TODO IMAGES !!! //
 }
 
