@@ -28,7 +28,7 @@ const CreateSuperheroForm = () => {
     },
   });
   const onSubmit = async (values: createSuperheroSchemaType) => {
-    const { success, pid } = await createSuperhero(values);
+    const { success } = await createSuperhero(values);
     if (success) {
       toast.success("Superhero created");
       // ROUTER TO /superhero/pid //

@@ -1,4 +1,4 @@
-import AllSuperpowers from "@/components/AllSuperpowers/AllSuperpowers";
+import AllSuperpowersSection from "@/components/AllSuperpowersSection/AllSuperpowersSection";
 import CreateSuperpowerForm from "@/forms/CreateSuperpowerForm/CreateSuperpowerForm";
 
 const CreateSuperPowerPage = () => {
@@ -6,7 +6,7 @@ const CreateSuperPowerPage = () => {
     <main>
       <h1>Create a superpower</h1>
       <CreateSuperpowerForm />
-      <AllSuperpowers />
+      <AllSuperpowersSection />
     </main>
   );
 };
