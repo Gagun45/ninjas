@@ -6,3 +6,6 @@ export interface LinkInterface {
 }
 
 export type SuperpowerType = Prisma.SuperpowerGetPayload<object>;
+export type SuperheroHomepageType = Prisma.SuperheroGetPayload<{
+  select: { nickname: true; pid: true };
+}>;

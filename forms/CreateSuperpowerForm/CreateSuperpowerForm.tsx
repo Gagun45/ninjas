@@ -29,18 +29,14 @@ const CreateSuperpowerForm = () => {
     },
   });
   const onSubmit = async (values: createSuperpowerSchemaType) => {
-    try {
-      const res = await addNewSuperhero({ values }).unwrap();
-      if (res.success) {
-        toast.success("New superpower added!");
-      } else {
-        toast.error("Something went wrong!");
-      }
-    } catch {
-      toast.error("Something went wrong");
-    } finally {
-      form.reset();
+    const res = await addNewSuperhero({ values }).unwrap();
+    if (res.success) {
+      toast.success("New superpower added!");
+    } else {
+      toast.error("Something went wrong!");
     }
+
+    form.reset();
   };
   return (
     <Form {...form}>

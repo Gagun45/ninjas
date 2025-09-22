@@ -13,10 +13,12 @@ import RealNameInput from "./RealNameInput/RealNameInput";
 import OriginDescriptionTextarea from "./OriginDescriptionTextarea/OriginDescriptionTextarea";
 import CatchPhraseInput from "./CatchPhraseInput/CatchPhraseInput";
 import SuperpowersMultiselect from "./SuperpowersMultiselect/SuperpowersMultiselect";
-import { createSuperhero } from "@/lib/actions/superhero.actions";
 import { toast } from "sonner";
+import { useCreateSuperheroMutation } from "@/redux/apis/superheroesApi";
+import LoadingButton from "@/components/General/LoadingButton/LoadingButton";
 
 const CreateSuperheroForm = () => {
+  const [createSuperhero, { isLoading }] = useCreateSuperheroMutation();
   const form = useForm<createSuperheroSchemaType>({
     resolver: zodResolver(createSuperheroSchema),
     defaultValues: {
@@ -28,8 +30,8 @@ const CreateSuperheroForm = () => {
     },
   });
   const onSubmit = async (values: createSuperheroSchemaType) => {
-    const { success } = await createSuperhero(values);
-    if (success) {
+    const res = await createSuperhero({ values }).unwrap();
+    if (res.success) {
       toast.success("Superhero created");
       // ROUTER TO /superhero/pid //
     } else {
@@ -48,7 +50,7 @@ const CreateSuperheroForm = () => {
         <OriginDescriptionTextarea />
         <CatchPhraseInput />
         <SuperpowersMultiselect />
-        <Button type="submit">Submit</Button>
+        {isLoading ? <LoadingButton /> : <Button type="submit">Submit</Button>}
       </form>
     </Form>
   );

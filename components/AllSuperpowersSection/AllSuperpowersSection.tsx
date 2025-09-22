@@ -1,16 +1,28 @@
 import prisma from "@/lib/prisma";
+import type { SuperpowerType } from "@/lib/types";
 
 const AllSuperpowersSection = async () => {
-  const superpowers = await prisma.superpower.findMany();
+  let superpowers: SuperpowerType[] = [];
+  try {
+    superpowers = await prisma.superpower.findMany();
+  } catch (error) {
+    console.log("Failed to fetch all superpowers: ", error);
+    return (
+      <section className="flex flex-col w-full max-w-2xl">
+        <h2 className="text-xl font-semibold py-4">Existing superpowers</h2>
+        <p className="font-semibold">Failed to load existing superpowers.</p>
+      </section>
+    );
+  }
 
   return (
     <section className="flex flex-col w-full max-w-2xl">
-      <h2>Existing superpowers</h2>
-      <div className="flex flex-col gap-2">
+      <h2 className="text-xl font-semibold py-4">Existing superpowers</h2>
+      <ul className="flex flex-col gap-2 list-disc pl-4">
         {superpowers.map((spower) => (
-          <span key={spower.id}>{spower.power}</span>
+          <li key={spower.id}>{spower.power}</li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 };
