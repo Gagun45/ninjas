@@ -8,6 +8,8 @@ import Pagination from "../General/Pagination/Pagination";
 import LoadingIndicator from "../General/LoadingIndicator/LoadingIndicator";
 import { PER_PAGE_OPTIONS, SORT_SUPERHEROES_OPTIONS } from "@/lib/constants";
 import SortBySelect from "../General/SortBySelect/SortBySelect";
+import Link from "next/link";
+import { buttonVariants } from "../ui/button";
 
 const AllSuperheroesSection = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,7 +26,21 @@ const AllSuperheroesSection = () => {
     setCurrentPage(1);
   }, [perPage]);
   if (isLoading) return <LoadingIndicator />;
+
   if (!data?.success) return <div>Something went wrong</div>;
+
+  if (data.superheroes.length === 0)
+    return (
+      <div className="flex flex-col gap-4 justify-center items-center w-full">
+        <span className="w-full text-center text-lg">No superheroes created yet</span>
+        <Link
+          className={buttonVariants({ variant: "default" })}
+          href={"/superhero/create"}
+        >
+          Create a superhero
+        </Link>
+      </div>
+    );
   const { totalCount, superheroes } = data;
   const totalPages = Math.ceil(totalCount / perPage);
 

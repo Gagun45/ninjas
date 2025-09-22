@@ -19,11 +19,11 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const DeleteSuperheroButton = ({ pid }: Props) => {
-  const [deleteSuperhero, { isLoading, isSuccess }] =
+  const [deleteSuperhero, { isLoading }] =
     useDeleteSuperheroByPidMutation();
   const router = useRouter();
   const onDelete = async () => {
-    const success = await deleteSuperhero({ pid }).unwrap();
+    const { success } = await deleteSuperhero({ pid }).unwrap();
     if (success) {
       toast.success("Superhero deleted!");
       router.push("/");
@@ -45,9 +45,11 @@ const DeleteSuperheroButton = ({ pid }: Props) => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="!justify-between">
-          <AlertDialogCancel className="bg-amber-50 hover:bg-amber-50">Cancel</AlertDialogCancel>
+          <AlertDialogCancel className="bg-amber-50 hover:bg-amber-50">
+            Cancel
+          </AlertDialogCancel>
           <Button
-            disabled={isLoading || isSuccess}
+            disabled={isLoading}
             className={buttonVariants({ variant: "destructive" })}
             onClick={onDelete}
           >

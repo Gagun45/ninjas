@@ -21,12 +21,8 @@ export const superheroesApi = createApi({
       { page: number; perPage: number; sortOption: string }
     >({
       queryFn: async ({ page, perPage, sortOption }) => {
-        try {
-          const data = await getSuperheroes({ page, perPage, sortOption });
-          return { data };
-        } catch (error) {
-          return { error };
-        }
+        const data = await getSuperheroes({ page, perPage, sortOption });
+        return { data };
       },
       providesTags: ["AllSuperheroes"],
     }),
@@ -35,12 +31,8 @@ export const superheroesApi = createApi({
       { pid: string }
     >({
       queryFn: async ({ pid }) => {
-        try {
-          const data = await deleteSuperheroByPid({ pid });
-          return { data };
-        } catch (error) {
-          return { error };
-        }
+        const data = await deleteSuperheroByPid({ pid });
+        return { data };
       },
       invalidatesTags: ["AllSuperheroes"],
     }),
@@ -49,12 +41,8 @@ export const superheroesApi = createApi({
       { values: createSuperheroSchemaType }
     >({
       queryFn: async ({ values }) => {
-        try {
-          const data = await createSuperhero(values);
-          return { data };
-        } catch (error) {
-          return { error };
-        }
+        const data = await createSuperhero(values);
+        return { data };
       },
       invalidatesTags: ["AllSuperheroes"],
     }),
