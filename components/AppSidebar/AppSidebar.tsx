@@ -5,13 +5,17 @@ import {
   SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar";
+import AppSidebarLinks from "./AppSidebarLinks/AppSidebarLinks";
+import Link from "next/link";
 
 const AppSidebar = () => {
   return (
-    <Sidebar>
-      <SidebarHeader />
-      <SidebarContent>
-        <SidebarGroup />
+    <Sidebar collapsible="offcanvas">
+      <SidebarHeader className="h-36 bg-main flex items-center justify-center">
+        <Link href={"/"} className="font-bold">LOGO</Link>
+      </SidebarHeader>
+      <SidebarContent className="pt-4">
+        <AppSidebarLinks />
         <SidebarGroup />
       </SidebarContent>
       <SidebarFooter />
