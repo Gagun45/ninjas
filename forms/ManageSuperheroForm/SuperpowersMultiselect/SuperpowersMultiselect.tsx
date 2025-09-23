@@ -8,14 +8,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import type { createSuperheroSchemaType } from "@/lib/zod-schemas";
+import type { superheroSchemaType } from "@/lib/zod-schemas";
 import { useGetSuperpowersQuery } from "@/redux/apis/superpowersApi";
 import Link from "next/link";
 import { useFormContext } from "react-hook-form";
 
 const SuperpowersMultiselect = () => {
   const { data, isLoading } = useGetSuperpowersQuery();
-  const { control } = useFormContext<createSuperheroSchemaType>();
+  const {
+    control,
+    formState: { isSubmitting },
+  } = useFormContext<superheroSchemaType>();
   if (data && data.superpowers.length === 0) {
     return (
       <div className="flex flex-col gap-2">
@@ -52,6 +55,7 @@ const SuperpowersMultiselect = () => {
                     <FormItem key={sp.id} className="flex items-center gap-2">
                       <FormControl>
                         <Checkbox
+                          disabled={isSubmitting}
                           checked={field.value?.includes(sp.id)}
                           onCheckedChange={(checked) => {
                             return checked

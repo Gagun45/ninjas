@@ -16,7 +16,7 @@ import { useEffect } from "react";
 import ImagesInput from "./ImagesInput/ImagesInput";
 
 interface Props {
-  onSave: (values: superheroSchemaType) => void;
+  onSave: (values: superheroSchemaType) => Promise<void>;
   superhero?: SuperheroDetailedType;
   isLoading?: boolean;
 }
@@ -30,6 +30,8 @@ const ManageSuperheroForm = ({ isLoading, onSave, superhero }: Props) => {
       originDescription: "",
       catchPhrase: "",
       superpowers: [],
+      imageFiles: [],
+      imageUrls: [],
     },
   });
   useEffect(() => {
@@ -54,7 +56,9 @@ const ManageSuperheroForm = ({ isLoading, onSave, superhero }: Props) => {
   }, [superhero, form]);
 
   const onSubmit = async (values: superheroSchemaType) => {
-    onSave(values);
+    console.log(values);
+    await onSave(values);
+    form.reset();
   };
 
   return (

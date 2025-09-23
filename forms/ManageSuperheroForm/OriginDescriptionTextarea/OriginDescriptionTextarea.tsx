@@ -6,11 +6,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import type { createSuperheroSchemaType } from "@/lib/zod-schemas";
+import type { superheroSchemaType } from "@/lib/zod-schemas";
 import { useFormContext } from "react-hook-form";
 
 const OriginDescriptionTextarea = () => {
-  const { control } = useFormContext<createSuperheroSchemaType>();
+  const {
+    control,
+    formState: { isSubmitting },
+  } = useFormContext<superheroSchemaType>();
   return (
     <FormField
       control={control}
@@ -19,7 +22,7 @@ const OriginDescriptionTextarea = () => {
         <FormItem>
           <FormLabel>Origin description</FormLabel>
           <FormControl>
-            <Textarea {...field} />
+            <Textarea {...field} disabled={isSubmitting} />
           </FormControl>
           <FormMessage />
         </FormItem>

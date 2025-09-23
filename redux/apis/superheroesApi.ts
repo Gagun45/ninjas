@@ -2,6 +2,7 @@ import {
   createSuperhero,
   getSuperheroes,
   deleteSuperheroByPid,
+  editSuperhero,
 } from "@/lib/actions/superhero.actions";
 import type { SuperheroHomepageType } from "@/lib/types";
 import type { superheroSchemaType } from "@/lib/zod-schemas";
@@ -36,6 +37,16 @@ export const superheroesApi = createApi({
       },
       invalidatesTags: ["AllSuperheroes"],
     }),
+    editSuperhero: builder.mutation<
+      { success: boolean },
+      { values: superheroSchemaType; pid: string }
+    >({
+      queryFn: async ({ pid, values }) => {
+        const data = await editSuperhero(values, pid);
+        return { data };
+      },
+      invalidatesTags: ["AllSuperheroes"],
+    }),
     createSuperhero: builder.mutation<
       { success: boolean; pid: string },
       { values: superheroSchemaType }
@@ -53,4 +64,5 @@ export const {
   useCreateSuperheroMutation,
   useGetSuperheroesQuery,
   useDeleteSuperheroByPidMutation,
+  useEditSuperheroMutation,
 } = superheroesApi;

@@ -47,6 +47,83 @@ export const createSuperhero = async (
   }
 };
 
+export const editSuperhero = async (
+  values: superheroSchemaType,
+  pid: string
+): Promise<{
+  success: boolean;
+}> => {
+  try {
+    const {
+      catchPhrase,
+      nickname,
+      originDescription,
+      realName,
+      superpowers,
+      imageFiles,
+      imageUrls,
+    } = values;
+    let finalUrls: string[] = [];
+    if (imageFiles) {
+      const urlsData = await uploadImage(imageFiles);
+      if (urlsData.success) {
+        finalUrls = urlsData.urls;
+      }
+      console.log(urlsData);
+    }
+    if (imageUrls) {
+      finalUrls.push(...imageUrls);
+    }
+    if (finalUrls.length === 0) return { success: false };
+    const existingUrlObjs = await prisma.images.findMany({
+      where: { Superhero: { pid } },
+    });
+    const existingUrls = existingUrlObjs.map((obj) => obj.url);
+    const toDelete = existingUrls.filter((url) => !finalUrls.includes(url));
+    const toAdd = finalUrls.filter((url) => !existingUrls.includes(url));
+    await prisma.$transaction(
+      async (tx) => {
+        const hero = await tx.superhero.findUnique({
+          where: { pid },
+          select: { id: true },
+        });
+        if (!hero) throw new Error("Superhero not found");
+        const superheroId = hero.id;
+
+        if (toDelete.length > 0) {
+          await tx.images.deleteMany({
+            where: { Superhero: { pid }, url: { in: toDelete } },
+          });
+        }
+
+        if (toAdd.length > 0) {
+          await tx.images.createMany({
+            data: toAdd.map(
+              (url) => ({ url, superheroId } as Prisma.ImagesCreateManyInput)
+            ),
+          });
+        }
+        await prisma.superhero.update({
+          where: { pid },
+          data: {
+            catchPhrase,
+            nickname,
+            originDescription,
+            realName,
+            superpowers: { set: superpowers.map((id) => ({ id })) },
+          },
+        });
+      },
+      { timeout: 15000 }
+    );
+
+    return { success: true };
+  } catch (error) {
+    console.log("Edit superhero error: ", error);
+    return { success: false };
+  }
+};
+
 export const uploadImage = async (files: File[]) => {
   const uploadedUrls: string[] = [];
   for (const file of files) {

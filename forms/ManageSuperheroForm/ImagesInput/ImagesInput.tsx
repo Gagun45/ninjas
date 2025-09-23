@@ -11,7 +11,12 @@ import type { superheroSchemaType } from "@/lib/zod-schemas";
 import { useFormContext } from "react-hook-form";
 
 const ImagesInput = () => {
-  const { control, watch, setValue } = useFormContext<superheroSchemaType>();
+  const {
+    control,
+    watch,
+    setValue,
+    formState: { isSubmitting },
+  } = useFormContext<superheroSchemaType>();
   const existingUrls = watch("imageUrls");
   const handleDeleteExistingUrl = (existingUrl: string) => {
     setValue(
@@ -31,7 +36,8 @@ const ImagesInput = () => {
               <Input
                 multiple
                 type="file"
-                accept="iamge/*"
+                accept="image/*"
+                disabled={isSubmitting}
                 name={name}
                 ref={ref}
                 onBlur={onBlur}
@@ -42,15 +48,19 @@ const ImagesInput = () => {
           </FormItem>
         )}
       />
-      <div className="flex flex-col">
-        <span>Existing urls:</span>
-        {existingUrls?.map((url) => (
-          <div key={url}>
-            <span>{url}</span>
-            <Button onClick={() => handleDeleteExistingUrl(url)}>Delete</Button>
-          </div>
-        ))}
-      </div>
+      {existingUrls && existingUrls.length > 0 && (
+        <div className="flex flex-col">
+          <span>Existing urls:</span>
+          {existingUrls?.map((url) => (
+            <div key={url}>
+              <span>{url}</span>
+              <Button onClick={() => handleDeleteExistingUrl(url)}>
+                Delete
+              </Button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
