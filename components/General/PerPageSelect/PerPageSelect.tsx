@@ -19,7 +19,7 @@ const PerPageSelect = ({ onChange, perPage, options }: Props) => {
       defaultValue={perPage.toString()}
       onValueChange={(value) => onChange(value)}
     >
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-fit">
         Show per page:
         <SelectValue />
       </SelectTrigger>

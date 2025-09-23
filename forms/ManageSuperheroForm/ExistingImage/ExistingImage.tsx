@@ -10,7 +10,7 @@ interface Props {
 const ExistingImage = ({ url, onDelete }: Props) => {
   return (
     <div className="size-36 relative group">
-      <Image src={url} fill alt="Superhero image" />
+      <Image src={url} fill alt="Superhero image" className="cursor-zoom-in"/>
       <Button
         onClick={() => onDelete(url)}
         type="button"

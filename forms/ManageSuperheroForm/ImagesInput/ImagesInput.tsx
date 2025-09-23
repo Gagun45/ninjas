@@ -30,7 +30,7 @@ const ImagesInput = ({ inputRef }: Props) => {
     );
   };
   return (
-    <div>
+    <div className="space-y-2">
       <FormField
         control={control}
         name="imageFiles"
@@ -59,9 +59,13 @@ const ImagesInput = ({ inputRef }: Props) => {
       />
       {existingUrls && existingUrls.length > 0 && (
         <div className="flex flex-wrap gap-2">
-          <span className="block w-full">Existing urls:</span>
+          <span className="block w-full">Existing images:</span>
           {existingUrls?.map((url) => (
-            <ExistingImage key={url} url={url} onDelete={handleDeleteExistingUrl} />
+            <ExistingImage
+              key={url}
+              url={url}
+              onDelete={handleDeleteExistingUrl}
+            />
           ))}
         </div>
       )}

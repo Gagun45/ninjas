@@ -61,7 +61,6 @@ const ManageSuperheroForm = ({ isLoading, onSave, superhero }: Props) => {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
   const onSubmit = async (values: superheroSchemaType) => {
-    console.log(values);
     await onSave(values);
     formReset();
   };
@@ -80,6 +79,7 @@ const ManageSuperheroForm = ({ isLoading, onSave, superhero }: Props) => {
         <ImagesInput inputRef={fileInputRef} />
         <div className="flex gap-4 items-center">
           <Button
+            disabled={form.formState.isSubmitting}
             type="button"
             variant={"default"}
             onClick={() => {

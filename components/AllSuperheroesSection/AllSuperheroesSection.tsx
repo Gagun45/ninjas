@@ -16,7 +16,7 @@ const AllSuperheroesSection = () => {
   const [currentSortOption, setCurrentSortOption] = useState(
     SORT_SUPERHEROES_OPTIONS[0]
   );
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(parseInt(PER_PAGE_OPTIONS[1]));
   const { data, isLoading, isFetching } = useGetSuperheroesQuery({
     page: currentPage,
     perPage,
