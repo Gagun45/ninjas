@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/sidebar";
 import AppSidebarLinks from "./AppSidebarLinks/AppSidebarLinks";
 import Link from "next/link";
+import Image from "next/image";
 
 const AppSidebar = () => {
   const { setOpenMobile } = useSidebar();
@@ -19,9 +20,9 @@ const AppSidebar = () => {
         <Link
           onClick={() => setOpenMobile(false)}
           href={"/"}
-          className="font-bold"
+          className="font-bold h-full aspect-square rounded-full bg-red-400 relative"
         >
-          LOGO
+          <Image src={'/superhero.png'} fill alt="Logo" className="object-contain"/>
         </Link>
       </SidebarHeader>
       <SidebarContent className="pt-4 bg-amber-50">

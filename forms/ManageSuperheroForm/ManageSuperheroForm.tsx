@@ -91,7 +91,7 @@ const ManageSuperheroForm = ({ isLoading, onSave, superhero }: Props) => {
           {isLoading ? (
             <LoadingButton />
           ) : (
-            <Button type="submit">Submit</Button>
+            <Button type="submit">{superhero ? "Edit" : "Create"}</Button>
           )}
         </div>
       </form>

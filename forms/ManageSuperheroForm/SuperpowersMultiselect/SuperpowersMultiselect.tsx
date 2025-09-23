@@ -19,6 +19,7 @@ const SuperpowersMultiselect = () => {
     control,
     formState: { isSubmitting },
   } = useFormContext<superheroSchemaType>();
+
   if (data && data.superpowers.length === 0) {
     return (
       <div className="flex flex-col gap-2">
@@ -30,7 +31,7 @@ const SuperpowersMultiselect = () => {
           className={`${buttonVariants({ variant: "default" })} w-fit `}
           href={"/superpower/create"}
         >
-          Add superpower
+          Add a superpower
         </Link>
       </div>
     );

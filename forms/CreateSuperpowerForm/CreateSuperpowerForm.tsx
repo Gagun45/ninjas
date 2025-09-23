@@ -54,13 +54,13 @@ const CreateSuperpowerForm = () => {
             <FormItem>
               <FormLabel>Superpower</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} disabled={form.formState.isSubmitting}/>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        {isLoading ? <LoadingButton /> : <Button type="submit">Submit</Button>}
+        {isLoading ? <LoadingButton /> : <Button type="submit">Create</Button>}
       </form>
     </Form>
   );
