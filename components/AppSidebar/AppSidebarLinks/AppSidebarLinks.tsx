@@ -1,4 +1,6 @@
-import { SidebarGroup } from "@/components/ui/sidebar";
+'use client'
+
+import { SidebarGroup, useSidebar } from "@/components/ui/sidebar";
 import type { LinkInterface } from "@/lib/types";
 import Link from "next/link";
 
@@ -8,6 +10,7 @@ const LINKS: LinkInterface[] = [
 ];
 
 const AppSidebarLinks = () => {
+  const { setOpenMobile } = useSidebar();
   return (
     <SidebarGroup className="gap-4">
       {LINKS.map((link) => (
@@ -15,6 +18,7 @@ const AppSidebarLinks = () => {
           className="bg-main rounded-md p-1 font-semibold"
           href={link.href}
           key={link.href}
+          onClick={() => setOpenMobile(false)}
         >
           {link.label}
         </Link>

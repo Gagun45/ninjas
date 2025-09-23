@@ -1,18 +1,28 @@
+"use client";
+
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import AppSidebarLinks from "./AppSidebarLinks/AppSidebarLinks";
 import Link from "next/link";
 
 const AppSidebar = () => {
+  const { setOpenMobile } = useSidebar();
   return (
     <Sidebar collapsible="offcanvas">
       <SidebarHeader className="h-36 bg-main flex items-center justify-center">
-        <Link href={"/"} className="font-bold">LOGO</Link>
+        <Link
+          onClick={() => setOpenMobile(false)}
+          href={"/"}
+          className="font-bold"
+        >
+          LOGO
+        </Link>
       </SidebarHeader>
       <SidebarContent className="pt-4 bg-amber-50">
         <AppSidebarLinks />

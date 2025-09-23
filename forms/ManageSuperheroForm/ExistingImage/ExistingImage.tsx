@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Trash2Icon } from "lucide-react";
 import Image from "next/image";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 interface Props {
   url: string;
@@ -9,8 +11,14 @@ interface Props {
 
 const ExistingImage = ({ url, onDelete }: Props) => {
   return (
-    <div className="size-36 relative group">
-      <Image src={url} fill alt="Superhero image" className="cursor-zoom-in"/>
+    <div className="size-36 sm:size-48 relative group">
+      <Zoom>
+        <Image
+          src={url}
+          fill
+          alt="Superhero image"
+        />
+      </Zoom>
       <Button
         onClick={() => onDelete(url)}
         type="button"
