@@ -56,11 +56,14 @@ const ManageSuperheroForm = ({ isLoading, onSave, superhero }: Props) => {
   }, [superhero, form]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const formReset = () => {
+    form.reset();
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
   const onSubmit = async (values: superheroSchemaType) => {
     console.log(values);
     await onSave(values);
-    form.reset();
-    if (fileInputRef.current) fileInputRef.current.value = "";
+    formReset();
   };
 
   return (
@@ -75,7 +78,22 @@ const ManageSuperheroForm = ({ isLoading, onSave, superhero }: Props) => {
         <CatchPhraseInput />
         <SuperpowersMultiselect />
         <ImagesInput inputRef={fileInputRef} />
-        {isLoading ? <LoadingButton /> : <Button type="submit">Submit</Button>}
+        <div className="flex gap-4 items-center">
+          <Button
+            type="button"
+            variant={"default"}
+            onClick={() => {
+              formReset();
+            }}
+          >
+            Reset
+          </Button>
+          {isLoading ? (
+            <LoadingButton />
+          ) : (
+            <Button type="submit">Submit</Button>
+          )}
+        </div>
       </form>
     </Form>
   );

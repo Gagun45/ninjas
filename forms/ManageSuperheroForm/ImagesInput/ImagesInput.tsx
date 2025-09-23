@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   FormControl,
   FormField,
@@ -10,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import type { superheroSchemaType } from "@/lib/zod-schemas";
 import type { RefObject } from "react";
 import { useFormContext } from "react-hook-form";
+import ExistingImage from "../ExistingImage/ExistingImage";
 
 interface Props {
   inputRef: RefObject<HTMLInputElement | null>;
@@ -58,15 +58,10 @@ const ImagesInput = ({ inputRef }: Props) => {
         )}
       />
       {existingUrls && existingUrls.length > 0 && (
-        <div className="flex flex-col">
-          <span>Existing urls:</span>
+        <div className="flex flex-wrap gap-2">
+          <span className="block w-full">Existing urls:</span>
           {existingUrls?.map((url) => (
-            <div key={url}>
-              <span>{url}</span>
-              <Button onClick={() => handleDeleteExistingUrl(url)}>
-                Delete
-              </Button>
-            </div>
+            <ExistingImage key={url} url={url} onDelete={handleDeleteExistingUrl} />
           ))}
         </div>
       )}
