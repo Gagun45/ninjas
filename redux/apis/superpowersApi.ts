@@ -9,6 +9,7 @@ import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 export const superpowersApi = createApi({
   reducerPath: "superpowersApi",
   baseQuery: fakeBaseQuery(),
+  tagTypes: ["AllSuperpowers"],
   endpoints: (builder) => ({
     getSuperpowers: builder.query<{ superpowers: SuperpowerType[] }, void>({
       queryFn: async () => {
@@ -19,6 +20,7 @@ export const superpowersApi = createApi({
           return { error };
         }
       },
+      providesTags: ["AllSuperpowers"],
     }),
     createSuperpower: builder.mutation<
       { success: boolean },
@@ -32,6 +34,7 @@ export const superpowersApi = createApi({
           return { error };
         }
       },
+      invalidatesTags: ["AllSuperpowers"],
     }),
   }),
 });

@@ -25,7 +25,7 @@ const SuperpowersMultiselect = () => {
         </span>
         <Link
           className={`${buttonVariants({ variant: "default" })} w-fit `}
-          href={"/create/superpower"}
+          href={"/superpower/create"}
         >
           Add superpower
         </Link>

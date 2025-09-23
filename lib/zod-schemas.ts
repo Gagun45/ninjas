@@ -28,7 +28,10 @@ export const createSuperheroSchema = z.object({
     .max(36, {
       message: "Catch phrase description must be at most 36 characters",
     }),
-  superpowers: z.array(z.int()).min(1, { message: "Choose at least one superpower" }),
+  superpowers: z
+    .array(z.int())
+    .min(1, { message: "Choose at least one superpower" }),
+  images: z.array(z.instanceof(File)).min(1, "At least one image is required"),
 });
 
 export type createSuperpowerSchemaType = z.infer<typeof createSuperpowerSchema>;

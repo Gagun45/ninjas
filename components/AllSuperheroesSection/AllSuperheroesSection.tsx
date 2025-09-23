@@ -32,7 +32,9 @@ const AllSuperheroesSection = () => {
   if (data.superheroes.length === 0)
     return (
       <div className="flex flex-col gap-4 justify-center items-center w-full">
-        <span className="w-full text-center text-lg">No superheroes created yet</span>
+        <span className="w-full text-center text-lg">
+          No superheroes created yet
+        </span>
         <Link
           className={buttonVariants({ variant: "default" })}
           href={"/superhero/create"}
@@ -55,6 +57,7 @@ const AllSuperheroesSection = () => {
     const sortOpt = SORT_SUPERHEROES_OPTIONS.find((opt) => opt.value === value);
     setCurrentSortOption(sortOpt ? sortOpt : SORT_SUPERHEROES_OPTIONS[0]);
   };
+  console.log("Superheroes: ", superheroes);
   return (
     <section className="flex flex-col w-full gap-2">
       <div className="flex items-center justify-between flex-wrap">

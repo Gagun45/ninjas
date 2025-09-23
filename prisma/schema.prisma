@@ -21,11 +21,18 @@ model Superhero {
   originDescription String
   superpowers       Superpower[]
   catchPhrase       String
-  // TODO IMAGES !!! //
+  images            Images[]
 }
 
 model Superpower {
   id        Int         @id @default(autoincrement())
   power     String      @unique
   Superhero Superhero[]
+}
+
+model Images {
+  id          Int       @id @default(autoincrement())
+  url         String
+  Superhero   Superhero @relation(fields: [superheroId], references: [id], onDelete: Cascade)
+  superheroId Int
 }

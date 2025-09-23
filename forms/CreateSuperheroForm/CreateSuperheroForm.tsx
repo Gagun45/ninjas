@@ -16,6 +16,7 @@ import SuperpowersMultiselect from "./SuperpowersMultiselect/SuperpowersMultisel
 import { toast } from "sonner";
 import { useCreateSuperheroMutation } from "@/redux/apis/superheroesApi";
 import LoadingButton from "@/components/General/LoadingButton/LoadingButton";
+import ImagesInput from "./ImagesInput/ImagesInput";
 
 const CreateSuperheroForm = () => {
   const [createSuperhero, { isLoading }] = useCreateSuperheroMutation();
@@ -27,6 +28,7 @@ const CreateSuperheroForm = () => {
       originDescription: "",
       catchPhrase: "",
       superpowers: [],
+      images: [],
     },
   });
   const onSubmit = async (values: createSuperheroSchemaType) => {
@@ -54,6 +56,7 @@ const CreateSuperheroForm = () => {
         <OriginDescriptionTextarea />
         <CatchPhraseInput />
         <SuperpowersMultiselect />
+        <ImagesInput/>
         {isLoading ? <LoadingButton /> : <Button type="submit">Submit</Button>}
       </form>
     </Form>
