@@ -1,10 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import {
-  createSuperheroSchema,
-  type createSuperheroSchemaType,
-} from "@/lib/zod-schemas";
+import { SuperheroSchema, type superheroSchemaType } from "@/lib/zod-schemas";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -13,38 +10,53 @@ import RealNameInput from "./RealNameInput/RealNameInput";
 import OriginDescriptionTextarea from "./OriginDescriptionTextarea/OriginDescriptionTextarea";
 import CatchPhraseInput from "./CatchPhraseInput/CatchPhraseInput";
 import SuperpowersMultiselect from "./SuperpowersMultiselect/SuperpowersMultiselect";
-import { toast } from "sonner";
-import { useCreateSuperheroMutation } from "@/redux/apis/superheroesApi";
 import LoadingButton from "@/components/General/LoadingButton/LoadingButton";
+import type { SuperheroDetailedType } from "@/lib/types";
+import { useEffect } from "react";
 import ImagesInput from "./ImagesInput/ImagesInput";
 
-const CreateSuperheroForm = () => {
-  const [createSuperhero, { isLoading }] = useCreateSuperheroMutation();
-  const form = useForm<createSuperheroSchemaType>({
-    resolver: zodResolver(createSuperheroSchema),
+interface Props {
+  onSave: (values: superheroSchemaType) => void;
+  superhero?: SuperheroDetailedType;
+  isLoading?: boolean;
+}
+
+const ManageSuperheroForm = ({ isLoading, onSave, superhero }: Props) => {
+  const form = useForm<superheroSchemaType>({
+    resolver: zodResolver(SuperheroSchema),
     defaultValues: {
       nickname: "",
       realName: "",
       originDescription: "",
       catchPhrase: "",
       superpowers: [],
-      images: [],
     },
   });
-  const onSubmit = async (values: createSuperheroSchemaType) => {
-    try {
-      const res = await createSuperhero({ values }).unwrap();
-      if (res.success) {
-        toast.success("Superhero created");
-        form.reset();
-        // ROUTER TO /superhero/pid //
-      } else {
-        toast.error("Something went wrong");
-      }
-    } catch {
-      toast.error("Unexpected error");
+  useEffect(() => {
+    if (superhero?.nickname) {
+      const {
+        catchPhrase,
+        nickname,
+        originDescription,
+        realName,
+        superpowers,
+        images,
+      } = superhero;
+      form.reset({
+        catchPhrase,
+        nickname,
+        originDescription,
+        realName,
+        superpowers: superpowers.map((s) => s.id),
+        imageUrls: images.map((i) => i.url),
+      });
     }
+  }, [superhero, form]);
+
+  const onSubmit = async (values: superheroSchemaType) => {
+    onSave(values);
   };
+
   return (
     <Form {...form}>
       <form
@@ -56,10 +68,10 @@ const CreateSuperheroForm = () => {
         <OriginDescriptionTextarea />
         <CatchPhraseInput />
         <SuperpowersMultiselect />
-        <ImagesInput/>
+        <ImagesInput />
         {isLoading ? <LoadingButton /> : <Button type="submit">Submit</Button>}
       </form>
     </Form>
   );
 };
-export default CreateSuperheroForm;
+export default ManageSuperheroForm;

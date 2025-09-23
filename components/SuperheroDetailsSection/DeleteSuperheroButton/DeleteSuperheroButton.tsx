@@ -37,7 +37,7 @@ const DeleteSuperheroButton = ({ pid }: Props) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive">Delete</Button>
+        <Button variant="destructive" className="w-24">Delete</Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-amber-50">
         <AlertDialogHeader>

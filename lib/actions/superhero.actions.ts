@@ -3,12 +3,12 @@
 import type { Prisma } from "@prisma/client";
 import prisma from "../prisma";
 import type { SuperheroDetailedType, SuperheroHomepageType } from "../types";
-import type { createSuperheroSchemaType } from "../zod-schemas";
+import type { superheroSchemaType } from "../zod-schemas";
 import { PER_PAGE_OPTIONS } from "../constants";
 import { cloudinary } from "../cloudinary";
 
 export const createSuperhero = async (
-  values: createSuperheroSchemaType
+  values: superheroSchemaType
 ): Promise<{ success: boolean; pid: string }> => {
   const {
     catchPhrase,
@@ -16,15 +16,17 @@ export const createSuperhero = async (
     originDescription,
     realName,
     superpowers,
-    images,
+    imageFiles,
   } = values;
   try {
-    let imageUrls: string[] = [];
-    const urlsData = await uploadImage(images);
-    if (urlsData.success) {
-      imageUrls = urlsData.urls;
+    let finalUrls: string[] = [];
+    if (imageFiles) {
+      const urlsData = await uploadImage(imageFiles);
+      if (urlsData.success) {
+        finalUrls = urlsData.urls;
+      }
     }
-    if (imageUrls.length === 0) return { success: false, pid: "" };
+    if (finalUrls.length === 0) return { success: false, pid: "" };
     const newSuperhero = await prisma.superhero.create({
       data: {
         catchPhrase,
@@ -33,7 +35,7 @@ export const createSuperhero = async (
         realName,
         superpowers: { connect: superpowers.map((id) => ({ id })) },
         images: {
-          create: imageUrls.map((url) => ({ url })),
+          create: finalUrls.map((url) => ({ url })),
         },
       },
     });

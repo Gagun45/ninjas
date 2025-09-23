@@ -4,7 +4,7 @@ import {
   deleteSuperheroByPid,
 } from "@/lib/actions/superhero.actions";
 import type { SuperheroHomepageType } from "@/lib/types";
-import type { createSuperheroSchemaType } from "@/lib/zod-schemas";
+import type { superheroSchemaType } from "@/lib/zod-schemas";
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const superheroesApi = createApi({
@@ -38,7 +38,7 @@ export const superheroesApi = createApi({
     }),
     createSuperhero: builder.mutation<
       { success: boolean; pid: string },
-      { values: createSuperheroSchemaType }
+      { values: superheroSchemaType }
     >({
       queryFn: async ({ values }) => {
         const data = await createSuperhero(values);
