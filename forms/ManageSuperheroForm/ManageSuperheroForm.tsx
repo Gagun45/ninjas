@@ -12,7 +12,7 @@ import CatchPhraseInput from "./CatchPhraseInput/CatchPhraseInput";
 import SuperpowersMultiselect from "./SuperpowersMultiselect/SuperpowersMultiselect";
 import LoadingButton from "@/components/General/LoadingButton/LoadingButton";
 import type { SuperheroDetailedType } from "@/lib/types";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import ImagesInput from "./ImagesInput/ImagesInput";
 
 interface Props {
@@ -55,10 +55,12 @@ const ManageSuperheroForm = ({ isLoading, onSave, superhero }: Props) => {
     }
   }, [superhero, form]);
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const onSubmit = async (values: superheroSchemaType) => {
     console.log(values);
     await onSave(values);
     form.reset();
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   return (
@@ -72,7 +74,7 @@ const ManageSuperheroForm = ({ isLoading, onSave, superhero }: Props) => {
         <OriginDescriptionTextarea />
         <CatchPhraseInput />
         <SuperpowersMultiselect />
-        <ImagesInput />
+        <ImagesInput inputRef={fileInputRef} />
         {isLoading ? <LoadingButton /> : <Button type="submit">Submit</Button>}
       </form>
     </Form>

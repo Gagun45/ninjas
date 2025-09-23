@@ -8,9 +8,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import type { superheroSchemaType } from "@/lib/zod-schemas";
+import type { RefObject } from "react";
 import { useFormContext } from "react-hook-form";
 
-const ImagesInput = () => {
+interface Props {
+  inputRef: RefObject<HTMLInputElement | null>;
+}
+
+const ImagesInput = ({ inputRef }: Props) => {
   const {
     control,
     watch,
@@ -34,12 +39,16 @@ const ImagesInput = () => {
             <FormLabel>Images</FormLabel>
             <FormControl>
               <Input
+                placeholder="asdasd"
                 multiple
                 type="file"
                 accept="image/*"
                 disabled={isSubmitting}
                 name={name}
-                ref={ref}
+                ref={(e) => {
+                  ref(e);
+                  inputRef.current = e;
+                }}
                 onBlur={onBlur}
                 onChange={(e) => onChange(Array.from(e.target.files ?? []))}
               />
