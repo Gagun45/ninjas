@@ -124,14 +124,10 @@ export const editSuperhero = async (
     const toDelete = existingUrls.filter((url) => !finalUrls.includes(url));
     const toAdd = finalUrls.filter((url) => !existingUrls.includes(url));
 
-    /*PRISMA TRANSACTION:
-      Determine the superhero id (by pid)
-      Delete urls
-      Add urls
-      Update superhero`s data
-    */
+    //PRISMA TRANSACTION:
     await prisma.$transaction(
       async (tx) => {
+        //       Determine the superhero id (by pid)
         const hero = await tx.superhero.findUnique({
           where: { pid },
           select: { id: true },
@@ -139,12 +135,14 @@ export const editSuperhero = async (
         if (!hero) throw new Error("Superhero not found");
         const superheroId = hero.id;
 
+        // Delete urls
         if (toDelete.length > 0) {
           await tx.images.deleteMany({
             where: { Superhero: { pid }, url: { in: toDelete } },
           });
         }
 
+        // Add urls
         if (toAdd.length > 0) {
           await tx.images.createMany({
             data: toAdd.map(
@@ -152,7 +150,9 @@ export const editSuperhero = async (
             ),
           });
         }
-        await prisma.superhero.update({
+
+        // Update superhero`s data
+        await tx.superhero.update({
           where: { pid },
           data: {
             catchPhrase,
@@ -165,7 +165,8 @@ export const editSuperhero = async (
       },
       { timeout: 15000 }
     );
-
+    
+    // return success after transaction commit
     return { success: true, message: "Superhero edited" };
   } catch (error) {
     console.log("Edit superhero error: ", error);
