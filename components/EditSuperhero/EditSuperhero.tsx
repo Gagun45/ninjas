@@ -15,16 +15,21 @@ const EditSuperhero = ({ superhero }: Props) => {
   const [editSuperhero, { isLoading }] = useEditSuperheroMutation();
   const router = useRouter();
   const onSave = async (values: superheroSchemaType) => {
-    try {
-      const { data } = await editSuperhero({ values, pid: superhero.pid });
-      if (data?.success) {
+    const { data, error } = await editSuperhero({
+      values,
+      pid: superhero.pid,
+    });
+    if (error) {
+      toast.error("Unexpected error");
+      return;
+    }
+    if (data) {
+      if (data.success) {
         toast.success("Superhero updated");
         router.push(`/superhero/${superhero.pid}`);
       } else {
-        toast.error("Something went wrong");
+        toast.error(data.message);
       }
-    } catch {
-      toast.error("Unexpected error");
     }
   };
   return (

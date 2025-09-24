@@ -22,22 +22,26 @@ const DeleteSuperheroButton = ({ pid }: Props) => {
   const [deleteSuperhero, { isLoading }] = useDeleteSuperheroByPidMutation();
   const router = useRouter();
   const onDelete = async () => {
-    try {
-      const { success } = await deleteSuperhero({ pid }).unwrap();
-      if (success) {
+    const { data, error } = await deleteSuperhero({ pid });
+    if (error) {
+      toast.error("Unexpected error");
+      return;
+    }
+    if (data) {
+      if (data.success) {
         toast.success("Superhero deleted!");
         router.push("/");
       } else {
-        toast.error("Something went wrong");
+        toast.error(data.message);
       }
-    } catch {
-      toast.error("Unexpected error");
     }
   };
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" className="w-24">Delete</Button>
+        <Button variant="destructive" className="w-24">
+          Delete
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-amber-50">
         <AlertDialogHeader>

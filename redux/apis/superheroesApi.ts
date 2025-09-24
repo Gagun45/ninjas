@@ -22,38 +22,54 @@ export const superheroesApi = createApi({
       { page: number; perPage: number; sortOption: string }
     >({
       queryFn: async ({ page, perPage, sortOption }) => {
-        const data = await getSuperheroes({ page, perPage, sortOption });
-        return { data };
+        try {
+          const data = await getSuperheroes({ page, perPage, sortOption });
+          return { data };
+        } catch {
+          return { error: "Unexpected error" };
+        }
       },
       providesTags: ["AllSuperheroes"],
     }),
     deleteSuperheroByPid: builder.mutation<
-      { success: boolean },
+      { success: boolean, message: string },
       { pid: string }
     >({
       queryFn: async ({ pid }) => {
-        const data = await deleteSuperheroByPid({ pid });
-        return { data };
+        try {
+          const data = await deleteSuperheroByPid({ pid });
+          return { data };
+        } catch {
+          return { error: "Unexpected error" };
+        }
       },
       invalidatesTags: ["AllSuperheroes"],
     }),
     editSuperhero: builder.mutation<
-      { success: boolean },
+      { success: boolean; message: string },
       { values: superheroSchemaType; pid: string }
     >({
       queryFn: async ({ pid, values }) => {
-        const data = await editSuperhero(values, pid);
-        return { data };
+        try {
+          const data = await editSuperhero(values, pid);
+          return { data };
+        } catch {
+          return { error: "Unexpected error" };
+        }
       },
       invalidatesTags: ["AllSuperheroes"],
     }),
     createSuperhero: builder.mutation<
-      { success: boolean; pid: string },
+      { success: boolean; pid: string; message: string },
       { values: superheroSchemaType }
     >({
       queryFn: async ({ values }) => {
-        const data = await createSuperhero(values);
-        return { data };
+        try {
+          const data = await createSuperhero(values);
+          return { data };
+        } catch {
+          return { error: "Unexpected error" };
+        }
       },
       invalidatesTags: ["AllSuperheroes"],
     }),

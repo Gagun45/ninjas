@@ -1,6 +1,6 @@
 "use server";
 
-import type { Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import prisma from "../prisma";
 import type { SuperheroDetailedType, SuperheroHomepageType } from "../types";
 import type { superheroSchemaType } from "../zod-schemas";
@@ -9,7 +9,7 @@ import { cloudinary } from "../cloudinary";
 
 export const createSuperhero = async (
   values: superheroSchemaType
-): Promise<{ success: boolean; pid: string }> => {
+): Promise<{ success: boolean; pid: string; message: string }> => {
   const {
     catchPhrase,
     nickname,
@@ -19,6 +19,7 @@ export const createSuperhero = async (
     imageFiles,
   } = values;
   try {
+    //handle images
     let finalUrls: string[] = [];
     if (imageFiles) {
       const urlsData = await uploadImage(imageFiles);
@@ -26,7 +27,10 @@ export const createSuperhero = async (
         finalUrls = urlsData.urls;
       }
     }
-    if (finalUrls.length === 0) return { success: false, pid: "" };
+    if (finalUrls.length === 0)
+      return { success: false, pid: "", message: "Image upload failed" };
+
+    //create db instance
     const newSuperhero = await prisma.superhero.create({
       data: {
         catchPhrase,
@@ -39,11 +43,34 @@ export const createSuperhero = async (
         },
       },
     });
-    if (!newSuperhero) return { success: false, pid: "" };
-    return { success: true, pid: newSuperhero.pid };
+    if (!newSuperhero)
+      return { success: false, pid: "", message: "Something went wrong" };
+    return {
+      success: true,
+      pid: newSuperhero.pid,
+      message: "Superhero created",
+    };
   } catch (error) {
     console.log("Create superhero error: ", error);
-    return { success: false, pid: "" };
+
+    //custom error for uniqueness constraint
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      const target = error.meta?.target as string[] | undefined;
+      return {
+        success: false,
+        pid: "",
+        message:
+          target && target[0] === "nickname"
+            ? "Nickname already exists"
+            : "Something went wrong",
+      };
+    }
+
+    //default error
+    return { success: false, pid: "", message: "Something went wrong" };
   }
 };
 
@@ -52,6 +79,7 @@ export const editSuperhero = async (
   pid: string
 ): Promise<{
   success: boolean;
+  message: string;
 }> => {
   try {
     const {
@@ -63,24 +91,45 @@ export const editSuperhero = async (
       imageFiles,
       imageUrls,
     } = values;
+
+    // --- IMAGE HANDLING ---
     let finalUrls: string[] = [];
+    // upload new images, push urls to the resulting array
     if (imageFiles) {
       const urlsData = await uploadImage(imageFiles);
       if (urlsData.success) {
         finalUrls = urlsData.urls;
       }
-      console.log(urlsData);
     }
+    // push existing urls to resulting array
     if (imageUrls) {
       finalUrls.push(...imageUrls);
     }
-    if (finalUrls.length === 0) return { success: false };
+    // fail if resulting array has 0 length
+    if (finalUrls.length === 0)
+      return { success: false, message: "Image upload failed" };
+
+    // Preparing for transaction:
+
+    //Fetch all images linked to the superhero (by pid),
+    //     extracting only 'url' field into an array of string
+
     const existingUrlObjs = await prisma.images.findMany({
       where: { Superhero: { pid } },
     });
     const existingUrls = existingUrlObjs.map((obj) => obj.url);
+
+    //Determine which image urls should be deleted (present in DB but not in resulting array)
+    //and which ones should be added (present in resulting array but not in DB)
     const toDelete = existingUrls.filter((url) => !finalUrls.includes(url));
     const toAdd = finalUrls.filter((url) => !existingUrls.includes(url));
+
+    /*PRISMA TRANSACTION:
+      Determine the superhero id (by pid)
+      Delete urls
+      Add urls
+      Update superhero`s data
+    */
     await prisma.$transaction(
       async (tx) => {
         const hero = await tx.superhero.findUnique({
@@ -117,10 +166,27 @@ export const editSuperhero = async (
       { timeout: 15000 }
     );
 
-    return { success: true };
+    return { success: true, message: "Superhero edited" };
   } catch (error) {
     console.log("Edit superhero error: ", error);
-    return { success: false };
+
+    //custom error for uniqueness constraint
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      const target = error.meta?.target as string[] | undefined;
+      return {
+        success: false,
+        message:
+          target && target[0] === "nickname"
+            ? "Nickname already exists"
+            : "Something went wrong",
+      };
+    }
+
+    //default error
+    return { success: false, message: "Something went wrong" };
   }
 };
 
@@ -164,6 +230,7 @@ export const getSuperheroes = async ({
   totalCount: number;
 }> => {
   try {
+    //constructing orderBy object based on sortOption argument
     const orderBy: Prisma.SuperheroOrderByWithRelationInput = {};
     switch (sortOption) {
       case "nicknameDesc":
@@ -173,11 +240,15 @@ export const getSuperheroes = async ({
       default:
         orderBy.nickname = "asc";
     }
+
+    //validating perPage argument
     const validatedPerPage = PER_PAGE_OPTIONS.find(
       (opt) => opt === perPage.toString()
     )
       ? perPage
       : parseInt(PER_PAGE_OPTIONS[1]);
+
+    //fetching needed superheroes and totalCount of ALL superheroes
     const [superheroes, totalCount] = await Promise.all([
       prisma.superhero.findMany({
         take: validatedPerPage,
@@ -215,14 +286,14 @@ export const deleteSuperheroByPid = async ({
   pid,
 }: {
   pid: string;
-}): Promise<{ success: boolean }> => {
+}): Promise<{ success: boolean; message: string }> => {
   try {
     await prisma.superhero.delete({
       where: { pid },
     });
-    return { success: true };
+    return { success: true, message: "Superhero deleted" };
   } catch (error) {
     console.log("Delete superhero by pid error: ", error);
-    return { success: false };
+    return { success: false, message: "Something went wrong" };
   }
 };

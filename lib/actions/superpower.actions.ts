@@ -4,19 +4,32 @@ import { revalidatePath } from "next/cache";
 import prisma from "../prisma";
 import type { createSuperpowerSchemaType } from "../zod-schemas";
 import type { SuperpowerType } from "../types";
+import { Prisma } from "@prisma/client";
 
 export const createSuperpower = async (
   values: createSuperpowerSchemaType
-): Promise<{ success: boolean }> => {
+): Promise<{ success: boolean; message: string }> => {
   try {
     const { power } = values;
-    const newSuperpower = await prisma.superpower.create({ data: { power } });
-    if (!newSuperpower) return { success: false };
+    await prisma.superpower.create({ data: { power } });
     revalidatePath("/create/superpowers");
-    return { success: true };
+    return { success: true, message: "Superpower created" };
   } catch (error) {
     console.log("Create superpower error: ", error);
-    return { success: false };
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      const target = error.meta?.target as string[] | undefined;
+      return {
+        success: false,
+        message:
+          target && target[0] === "power"
+            ? "Superpower already exists"
+            : "Something went wrong",
+      };
+    }
+    return { success: false, message: "Something went wrong" };
   }
 };
 

@@ -16,22 +16,22 @@ export const superpowersApi = createApi({
         try {
           const data = await getAllSuperpowers();
           return { data };
-        } catch (error) {
-          return { error };
+        } catch {
+          return { error: "Unexpected error" };
         }
       },
       providesTags: ["AllSuperpowers"],
     }),
     createSuperpower: builder.mutation<
-      { success: boolean },
+      { success: boolean, message: string },
       { values: createSuperpowerSchemaType }
     >({
       queryFn: async ({ values }) => {
         try {
           const data = await createSuperpower(values);
           return { data };
-        } catch (error) {
-          return { error };
+        } catch {
+          return { error: 'Unexpected error' };
         }
       },
       invalidatesTags: ["AllSuperpowers"],

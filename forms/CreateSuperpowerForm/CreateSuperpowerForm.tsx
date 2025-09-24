@@ -29,16 +29,18 @@ const CreateSuperpowerForm = () => {
     },
   });
   const onSubmit = async (values: createSuperpowerSchemaType) => {
-    try {
-      const res = await addNewSuperhero({ values }).unwrap();
-      if (res.success) {
+    const { data, error } = await addNewSuperhero({ values });
+    if (error) {
+      toast.error("Unexpected error");
+      return;
+    }
+    if (data) {
+      if (data.success) {
         toast.success("New superpower added!");
         form.reset();
       } else {
-        toast.error("Something went wrong!");
+        toast.error(data.message);
       }
-    } catch {
-      toast.error("Unexpected error");
     }
   };
   return (
@@ -54,7 +56,7 @@ const CreateSuperpowerForm = () => {
             <FormItem>
               <FormLabel>Superpower</FormLabel>
               <FormControl>
-                <Input {...field} disabled={form.formState.isSubmitting}/>
+                <Input {...field} disabled={form.formState.isSubmitting} />
               </FormControl>
               <FormMessage />
             </FormItem>

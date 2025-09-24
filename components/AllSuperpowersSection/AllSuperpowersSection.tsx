@@ -10,7 +10,9 @@ const AllSuperpowersSection = async () => {
     return (
       <section className="flex flex-col w-full max-w-2xl">
         <h2 className="text-xl font-semibold py-4">Existing superpowers</h2>
-        <p className="font-semibold">Failed to load existing superpowers.</p>
+        <p className="font-semibold">
+          Unexpected error. Failed to load existing superpowers.
+        </p>
       </section>
     );
   }

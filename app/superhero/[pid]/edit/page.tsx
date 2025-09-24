@@ -1,20 +1,27 @@
 // import EditSuperheroForm from "@/forms/EditSuperheroForm/EditSuperheroForm";
 import EditSuperhero from "@/components/EditSuperhero/EditSuperhero";
 import { getSuperheroByPid } from "@/lib/actions/superhero.actions";
+import type { SuperheroDetailedType } from "@/lib/types";
 
 interface Props {
   params: Promise<{ pid: string }>;
 }
 
 const SuperheroEditPage = async ({ params }: Props) => {
-  const { pid } = await params;
-  const { success, superhero } = await getSuperheroByPid({ pid });
-  if (!success) {
-    return <main>Something went wrong</main>;
-  }
+  let superhero: SuperheroDetailedType | null = null;
+  try {
+    const { pid } = await params;
+    const { success, superhero: shero } = await getSuperheroByPid({ pid });
+    if (!success) {
+      return <main>Something went wrong</main>;
+    }
 
-  if (!superhero) {
-    return <main>Superhero not found</main>;
+    if (!shero) {
+      return <main>Superhero not found</main>;
+    }
+    superhero = shero;
+  } catch {
+    return <main>Something went wrong</main>;
   }
   return (
     <main>

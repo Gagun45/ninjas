@@ -17,7 +17,7 @@ const AllSuperheroesSection = () => {
     SORT_SUPERHEROES_OPTIONS[0]
   );
   const [perPage, setPerPage] = useState(parseInt(PER_PAGE_OPTIONS[1]));
-  const { data, isLoading, isFetching } = useGetSuperheroesQuery({
+  const { data, isLoading, isFetching, error } = useGetSuperheroesQuery({
     page: currentPage,
     perPage,
     sortOption: currentSortOption.value,
@@ -26,6 +26,7 @@ const AllSuperheroesSection = () => {
     setCurrentPage(1);
   }, [perPage]);
   if (isLoading) return <LoadingIndicator />;
+  if (error) return <div>Unexpected error</div>
 
   if (!data?.success) return <div>Something went wrong</div>;
 
@@ -57,7 +58,7 @@ const AllSuperheroesSection = () => {
     const sortOpt = SORT_SUPERHEROES_OPTIONS.find((opt) => opt.value === value);
     setCurrentSortOption(sortOpt ? sortOpt : SORT_SUPERHEROES_OPTIONS[0]);
   };
-  console.log("Superheroes: ", superheroes);
+
   return (
     <section className="flex flex-col w-full gap-2">
       <div className="flex items-center justify-between flex-wrap">

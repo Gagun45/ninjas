@@ -3,20 +3,25 @@
 import ManageSuperheroForm from "@/forms/ManageSuperheroForm/ManageSuperheroForm";
 import type { superheroSchemaType } from "@/lib/zod-schemas";
 import { useCreateSuperheroMutation } from "@/redux/apis/superheroesApi";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const CreateSuperheroPage = () => {
   const [createSuperhero, { isLoading }] = useCreateSuperheroMutation();
+  const router = useRouter();
   const onSave = async (values: superheroSchemaType) => {
-    try {
-      const { data } = await createSuperhero({ values });
-      if (data?.success) {
-        toast.success("Superhero created");
-      } else {
-        toast.error("Something went wrong");
-      }
-    } catch {
+    const { data, error } = await createSuperhero({ values });
+    if (error) {
       toast.error("Unexpected error");
+      return;
+    }
+    if (data) {
+      if (data.success) {
+        toast.success("Superhero created");
+        router.push(`/superhero/${data.pid}`);
+      } else {
+        toast.error(data.message);
+      }
     }
   };
   return (

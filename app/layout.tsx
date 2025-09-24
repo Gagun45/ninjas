@@ -42,7 +42,7 @@ export default function RootLayout({
             </div>
           </ReduxProvider>
         </SidebarProvider>
-        <Toaster />
+        <Toaster richColors/>
       </body>
     </html>
   );

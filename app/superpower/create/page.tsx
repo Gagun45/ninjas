@@ -7,7 +7,7 @@ const CreateSuperPowerPage = () => {
     <main>
       <h1>Create a superpower</h1>
       <CreateSuperpowerForm />
-      <Suspense fallback={<div>Fetching all existing sueprpowers...</div>}>
+      <Suspense fallback={<div>Fetching all existing superpowers...</div>}>
         <AllSuperpowersSection />
       </Suspense>
     </main>
