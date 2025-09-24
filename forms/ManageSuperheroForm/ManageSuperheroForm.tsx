@@ -62,7 +62,6 @@ const ManageSuperheroForm = ({ isLoading, onSave, superhero }: Props) => {
   };
   const onSubmit = async (values: superheroSchemaType) => {
     await onSave(values);
-    formReset();
   };
 
   return (
