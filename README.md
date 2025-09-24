@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Test Assignment project for JavaScript Ninjas
+
+# Next.js test project demonstrating CRUD functionality, backend interactions using Redux Toolkit + RTK Query, UI responsiveness
+
+# Project is being deployed and can be accessed via link: https://ninjas-omega-black.vercel.app/
+
+## Table of Contents
+
+    - [Features]
+    - [Tech Stack]
+    - [Getting Started]
+    - [Scripts]
+    - [Folder Structure]
+
+## Features
+
+    Core Features:
+        - Create - add new items
+        - Read - view list of items
+        - Update - edit existing items
+        - Delete - delete existing items
+
+    UX & UI Features:
+        - Responsive Design - works seamlessly on desktop and mobile
+        - User Feedback - toasts for success or error actions
+        - Loading States - spinners while fetching data or submitting forms
+
+    Additionally:
+        - Pagination, Sorting
+        - Routing - dynamic routes for individual item pages
+        - File upload - upload images to the cloud
+
+## Tech Stack
+
+    - Next.js 15
+    - React 19
+    - Redux Toolkit
+    - ShadCN
+    - Prisma + PostgreSQL
+    - JavaScript (ES6+) + TypeScript
 
 ## Getting Started
 
-First, run the development server:
+    ### Prerequisites
+        - Node.js 18+
+        - npm or yarn
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+    ### Installation
+        # Clone the repo:
+            git clone https://github.com/Gagun45/ninjas.git
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+        # Navigate to the project folder
+            cd ninjas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+        # Install dependencies
+            npm install
+            or
+            yarn install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+        # Generate prisma client
+            npx prisma generate
+            or
+            yarn prisma generate
 
-## Learn More
+        # Configure environment variables. To access all features of this project you need to configure the required environment variables. Without them some features may not work as expected. If you dont have the values, you can skip the step. Otherwise, create .env file and fill in the values:
+            code .env
 
-To learn more about Next.js, take a look at the following resources:
+        # Run development server
+            npm run dev
+            or
+            yarn dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+        # Open http://localhost:3000 to see it in the browser
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Scripts
 
-## Deploy on Vercel
+    - npm run dev - run development server
+    - npm run build - build projectt for production
+    - npm run start - start production server
+    - npm run lint - run ESLint
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Folder Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    ninjas/
+    ├─ app/                 # Next.js App directory (pages/routes)
+    ├─ components/          # Reusable UI Components
+    ├─ forms/               # Forms used across the app
+    ├─ hooks/               # Custom React hooks
+    ├─ lib/                 # Server actions, configuration files (types, schemas, constants)
+    ├─ prisma/              # Folder containing prisma.schema file
+    ├─ providers/           # App providers
+    ├─ public/              # Static assets
+    ├─ redux/               # Redux configuration
+    ├─ next.config.mjs
+    ├─ package.json
+    └─ README.md
