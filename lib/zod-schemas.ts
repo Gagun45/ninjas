@@ -20,14 +20,14 @@ export const SuperheroSchema = z
     originDescription: z
       .string()
       .min(3, { message: "Origin description must be at least 3 characters" })
-      .max(36, { message: "Origin description must be at most 36 characters" }),
+      .max(250, { message: "Origin description must be at most 250 characters" }),
     catchPhrase: z
       .string()
       .min(3, {
         message: "Catch phrase description must be at least 3 characters",
       })
-      .max(36, {
-        message: "Catch phrase description must be at most 36 characters",
+      .max(250, {
+        message: "Catch phrase description must be at most 250 characters",
       }),
     superpowers: z
       .array(z.int())
