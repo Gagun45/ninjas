@@ -29,7 +29,6 @@ const AppSidebar = () => {
         <AppSidebarLinks />
         <SidebarGroup />
       </SidebarContent>
-      <SidebarFooter />
     </Sidebar>
   );
 };
