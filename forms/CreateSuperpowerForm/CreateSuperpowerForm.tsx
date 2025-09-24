@@ -36,7 +36,7 @@ const CreateSuperpowerForm = () => {
     }
     if (data) {
       if (data.success) {
-        toast.success("New superpower added!");
+        toast.success(data.message);
         form.reset();
       } else {
         toast.error(data.message);

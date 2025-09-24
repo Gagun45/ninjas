@@ -33,9 +33,9 @@ const AllSuperheroesSection = () => {
   if (data.superheroes.length === 0)
     return (
       <div className="flex flex-col gap-4 justify-center items-center w-full">
-        <span className="w-full text-center text-lg">
+        <h2 className="w-full text-center text-lg">
           No superheroes created yet
-        </span>
+        </h2>
         <Link
           className={buttonVariants({ variant: "default" })}
           href={"/superhero/create"}
