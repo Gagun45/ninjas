@@ -5,8 +5,8 @@ import type { LinkInterface } from "@/lib/types";
 import Link from "next/link";
 
 const LINKS: LinkInterface[] = [
-  { href: "/superpower/create", label: "Create a superpower" },
   { href: "/superhero/create", label: "Create a superhero" },
+  { href: "/superpower/create", label: "Create a superpower" },
 ];
 
 const AppSidebarLinks = () => {
