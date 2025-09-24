@@ -40,6 +40,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-main: var(--main);
+  --color-add: var(--add);
 }
 
 :root {
@@ -76,6 +77,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --main: oklch(70.7% 0.165 254.624);
+  --add: oklch(98.7% 0.022 95.277);
 }
 
 .dark {
@@ -122,9 +124,14 @@
   }
 
   main {
-    @apply flex flex-col items-center p-4 w-full min-h-[calc(100vh-144px)] bg-amber-50
+    @apply flex flex-col items-center p-4 w-full min-h-[calc(100vh-144px)] bg-add
   }
+
   h1 {
-    @apply text-4xl font-bold tracking-wider py-8
+    @apply text-4xl font-bold tracking-wider py-4
+  }
+
+  section {
+    @apply max-w-[1440px]
   }
 }

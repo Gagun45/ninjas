@@ -23,7 +23,7 @@ const PerPageSelect = ({ onChange, perPage, options }: Props) => {
         Show per page:
         <SelectValue />
       </SelectTrigger>
-      <SelectContent className="bg-amber-50">
+      <SelectContent className="bg-add">
         <SelectGroup>
           {options.map((value) => (
             <SelectItem key={value} value={value}>

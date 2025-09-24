@@ -25,7 +25,7 @@ const AppSidebar = () => {
           <Image src={'/superhero.png'} fill alt="Logo" className="object-contain"/>
         </Link>
       </SidebarHeader>
-      <SidebarContent className="pt-4 bg-amber-50">
+      <SidebarContent className="pt-4 bg-add">
         <AppSidebarLinks />
         <SidebarGroup />
       </SidebarContent>

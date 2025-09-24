@@ -24,7 +24,7 @@ const SortBySelect = ({ currentOption, onChange, options }: Props) => {
         Sort: 
         <SelectValue>{currentOption.label}</SelectValue>
       </SelectTrigger>
-      <SelectContent className="bg-amber-50">
+      <SelectContent className="bg-add">
         <SelectGroup>
           {options.map((opt) => (
             <SelectItem key={opt.value} value={opt.value}>

@@ -43,7 +43,7 @@ const DeleteSuperheroButton = ({ pid }: Props) => {
           Delete
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="bg-amber-50">
+      <AlertDialogContent className="bg-add">
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -52,7 +52,7 @@ const DeleteSuperheroButton = ({ pid }: Props) => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="!justify-between">
-          <AlertDialogCancel className="bg-amber-50 hover:bg-amber-50">
+          <AlertDialogCancel className="bg-add hover:bg-add">
             Cancel
           </AlertDialogCancel>
           <Button
