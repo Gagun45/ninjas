@@ -18,6 +18,18 @@ test("Title, input, btn being visible", async ({ page }) => {
   await expect(submitBtn).toBeVisible();
 });
 
+test("Create empty superpower", async ({ page }) => {
+  const input = page.getByLabel("Superpower");
+  expect(input).toHaveValue("");
+  const submitBtn = page.getByRole("button", { name: "Create" });
+
+  await submitBtn.click();
+  
+  const errorMsg = 'Power must be at least 3 characters'
+  const errorElement = page.getByText(errorMsg)
+  await expect(errorElement).toBeVisible()
+});
+
 test("Add new superpowers", async ({ page }) => {
   const input = page.getByLabel("Superpower");
   const submitBtn = page.getByRole("button", { name: "Create" });

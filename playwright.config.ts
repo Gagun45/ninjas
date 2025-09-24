@@ -16,7 +16,7 @@ dotenv.config({ path: ".env.e2e" });
  */
 export default defineConfig({
   webServer: {
-    command: "npx dotenv -e .env.e2e -- next dev",
+    command: "npx dotenv -e .env.e2e -- next dev --turbopack",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
   },

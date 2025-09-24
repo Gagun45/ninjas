@@ -6,11 +6,12 @@
 
 ## Table of Contents
 
-    - [Features]
-    - [Tech Stack]
-    - [Getting Started]
-    - [Scripts]
-    - [Folder Structure]
+    - [Features](#features)
+    - [Tech Stack](#tech-stack)
+    - [Getting Started](#getting-started)
+    - [Scripts](#scripts)
+    - [Folder Structure](#folder-structure)
+    - [Tests](#tests)
 
 ## Features
 
@@ -29,6 +30,7 @@
         - Pagination, Sorting
         - Routing - dynamic routes for individual item pages
         - File upload - upload images to the cloud
+        - Testing - automated end-to-end tests to ensure full app functionality
 
 ## Tech Stack
 
@@ -43,7 +45,7 @@
 
     ### Prerequisites
         - Node.js 18+
-        - npm or yarn
+        - npm
 
     ### Installation
         # Clone the repo:
@@ -54,21 +56,15 @@
 
         # Install dependencies
             npm install
-            or
-            yarn install
 
         # Generate prisma client
             npx prisma generate
-            or
-            yarn prisma generate
 
         # Configure environment variables. To access all features of this project you need to configure the required environment variables. Without them some features may not work as expected. If you dont have the values, you can skip the step. Otherwise, create .env file and fill in the values:
             code .env
 
         # Run development server
             npm run dev
-            or
-            yarn dev
 
         # Open http://localhost:3000 to see it in the browser
 
@@ -78,6 +74,9 @@
     - npm run build - build projectt for production
     - npm run start - start production server
     - npm run lint - run ESLint
+    - npm run dev:e2e - run development server with E2E environment
+    - npm run test:e2e - run playwright E2E tests
+    - npm run db:push:e2e - reset and push the db schema for E2E testing
 
 ## Folder Structure
 
@@ -91,6 +90,24 @@
     ├─ providers/           # App providers
     ├─ public/              # Static assets
     ├─ redux/               # Redux configuration
+    ├─ tests/               # Automated E2E tests
     ├─ next.config.mjs
     ├─ package.json
     └─ README.md
+
+## Tests
+
+    End-to-end tests using Playwright to verify app functionality
+
+    **Scripts:**
+        - npm run dev:e2e - run development server with E2E environment
+        - npm run test:e2e - run playwright E2E tests
+        - npm run db:push:e2e - reset and push the db schema for E2E testing
+
+    **Usage:**
+        # Reset E2E database
+            npm run db:push:e2e
+        
+        # Run E2E tests
+            npm run test:e2e
+

@@ -7,9 +7,9 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "dev:e2e": "cross-env NODE_ENV=test npx dotenv -e .env.e2e -- npm run dev",
-    "test:e2e": "cross-env NODE_ENV=test npx dotenv -e .env.e2e -- npx playwright test",
-    "db:push:e2e": "npx dotenv -e .env.e2e -- npx prisma db push"
+    "dev:e2e": "npx dotenv -e .env.e2e -- next dev --turbopack",
+    "test:e2e": "npx dotenv -e .env.e2e -- npx playwright test",
+    "db:push:e2e": "npx dotenv -e .env.e2e -- npx prisma db push --force-reset"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
