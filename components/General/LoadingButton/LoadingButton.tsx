@@ -7,8 +7,8 @@ interface Props {
 
 const LoadingButton = ({ className }: Props) => {
   return (
-    <Button className={className} type="button">
-      <BarLoader/>
+    <Button className={`${className} text-add`} type="button">
+      <BarLoader color="currentColor" />
     </Button>
   );
 };

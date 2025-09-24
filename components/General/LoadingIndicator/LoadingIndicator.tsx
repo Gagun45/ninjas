@@ -7,9 +7,9 @@ interface Props {
 const LoadingIndicator = ({ className }: Props) => {
   return (
     <div
-      className={`${className} flex items-center justify-center w-full h-36`}
+      className={`${className} flex items-center justify-center w-full h-36 text-main`}
     >
-      <SyncLoader />
+      <SyncLoader color="currentColor"/>
     </div>
   );
 };
